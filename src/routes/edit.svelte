@@ -17,6 +17,7 @@
 
   let gravity = getSearchParamOrDefault("gravity", defaults.gravity);
   let realTime = getSearchParamOrDefault("realTime", defaults.realTime);
+  let collisions = getSearchParamOrDefault("collisions", defaults.collisions);
   let timeStep = getSearchParamOrDefault("timeStep", defaults.timeStep);
   let updatesPerFrame = getSearchParamOrDefault(
     "updatesPerFrame",
@@ -59,6 +60,7 @@
     ({
       gravity,
       realTime,
+      collisions,
       timeStep,
       updatesPerFrame,
       sizeRatio,
@@ -94,6 +96,7 @@
     for (let [key, value] of Object.entries({
       gravity,
       realTime,
+      collisions,
       timeStep,
       updatesPerFrame,
       sizeRatio,
@@ -107,7 +110,6 @@
     })) {
       url.searchParams.set(key, JSON.stringify(value));
     }
-    console.log(url.href);
     window.location.assign(url.href);
   };
 </script>
@@ -144,6 +146,10 @@
         appear jittery and may result in each different run producing different
         results.
       </p>
+    </div>
+    <div>
+      <label for="collisions">Collisions</label>
+      <input type="checkbox" id="collisions" bind:checked={collisions} />
     </div>
     <div>
       <label for="time-step">Time step (<i>dt</i>)</label>
@@ -453,8 +459,6 @@
     <button
       on:click|preventDefault={() => {
         restoreDefaults();
-        console.log(bodies);
-        console.log(defaults.bodies);
       }}>Restore all simulation parameters to default</button
     >
   </div>

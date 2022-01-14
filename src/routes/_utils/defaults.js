@@ -1,6 +1,7 @@
 export const defaults = {
   gravity: 2712,
   realTime: false,
+  collisions: true,
   timeStep: 0.1,
   updatesPerFrame: 3,
   sizeRatio: 2,

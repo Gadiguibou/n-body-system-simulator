@@ -19,6 +19,10 @@
     // Gravitational constant
     const G = getSearchParamOrDefault("gravity", defaults.gravity);
     const REAL_TIME = getSearchParamOrDefault("realTime", defaults.realTime);
+    const COLLISIONS = getSearchParamOrDefault(
+      "collisions",
+      defaults.collisions
+    );
     const TIME_STEP = getSearchParamOrDefault("timeStep", defaults.timeStep);
     const UPDATES_PER_FRAME = getSearchParamOrDefault(
       "updatesPerFrame",
@@ -175,7 +179,7 @@
             const dx = body.x - other.x;
             const dy = body.y - other.y;
             const r = Math.sqrt(dx * dx + dy * dy);
-            if (r < body.radius + other.radius && i < j) {
+            if (COLLISIONS && r < body.radius + other.radius && i < j) {
               collisions.push([i, j]);
             }
             const acceleration = (-1 * G * other.mass) / (r * r);
