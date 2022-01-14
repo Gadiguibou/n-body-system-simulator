@@ -1,4 +1,6 @@
 <script>
+  "use strict";
+
   let gravity = 2712;
   let realTime = false;
   let timeStep = 0.1;
@@ -12,20 +14,47 @@
   let shinyBodies = true;
   let shineRadius = 1;
 
+  let bodies = [
+    { x: -100, y: 0, vx: 0, vy: 12.5, m: 30, h: 0, s: 100, l: 50 },
+    { x: 100, y: 0, vx: 0, vy: -12.5, m: 30, h: 235, s: 100, l: 50 },
+    { x: 0, y: 300, vx: -18, vy: 0, m: 2, h: 100, s: 100, l: 50 },
+    { x: 0, y: -300, vx: 18, vy: 0, m: 2, h: 40, s: 100, l: 50 },
+    { x: -500, y: 0, vx: 0, vy: 17, m: 10, h: 150, s: 100, l: 50 },
+    { x: 500, y: 0, vx: 0, vy: -17, m: 10, h: 300, s: 100, l: 50 },
+  ];
+
+  const generateNewRandomBody = () => {
+    return {
+      x: Math.round(Math.random() * 500 - 250),
+      y: Math.round(Math.random() * 500 - 250),
+      vx: Math.round(Math.random() * 40 - 20),
+      vy: Math.round(Math.random() * 50 - 20),
+      m: Math.round(Math.random() * 30 + 1),
+      h: Math.floor(Math.random() * 360),
+      s: 100,
+      l: 50,
+    };
+  };
+
   const simulate = (e) => {
     e.preventDefault();
     const url = new URL("/", window.location.origin);
-    url.searchParams.set("gravity", gravity);
-    url.searchParams.set("realTime", realTime);
-    url.searchParams.set("timeStep", timeStep);
-    url.searchParams.set("updatesPerFrame", updatesPerFrame);
-    url.searchParams.set("sizeRatio", sizeRatio);
-    url.searchParams.set("trails", trails);
-    url.searchParams.set("disappearingTrails", disappearingTrails);
-    url.searchParams.set("trailLength", trailLength);
-    url.searchParams.set("whiteBackground", whiteBackground);
-    url.searchParams.set("shinyBodies", shinyBodies);
-    url.searchParams.set("shineRadius", shineRadius);
+    for (let [key, value] of Object.entries({
+      gravity,
+      realTime,
+      timeStep,
+      updatesPerFrame,
+      sizeRatio,
+      trails,
+      disappearingTrails,
+      trailLength,
+      whiteBackground,
+      shinyBodies,
+      shineRadius,
+      bodies,
+    })) {
+      url.searchParams.set(key, JSON.stringify(value));
+    }
     console.log(url.href);
     window.location.assign(url.href);
   };
@@ -190,6 +219,148 @@
         bind:value={shineRadius}
         disabled={!shinyBodies}
       />
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Bodies</legend>
+    {#each bodies as body, index}
+      <fieldset>
+        <legend>Body {index + 1}</legend>
+        <div>
+          <label for="body-{index}-mass">Mass</label>
+          <input
+            type="range"
+            id="body-{index}-mass"
+            min="0.1"
+            max="100"
+            step="0.1"
+            bind:value={body.m}
+          />
+          <input
+            type="number"
+            id="body-{index}-mass"
+            min="0.1"
+            step="0.1"
+            bind:value={body.m}
+          />
+        </div>
+        <div>
+          <label for="body-{index}-x">X</label>
+          <input
+            type="range"
+            id="body-{index}-x"
+            min="-1000"
+            max="1000"
+            step="0.1"
+            bind:value={body.x}
+          />
+          <input
+            type="number"
+            id="body-{index}-x"
+            step="0.1"
+            bind:value={body.x}
+          />
+        </div>
+        <div>
+          <label for="body-{index}-y">Y</label>
+          <input
+            type="range"
+            id="body-{index}-y"
+            min="-1000"
+            max="1000"
+            step="0.1"
+            bind:value={body.y}
+          />
+          <input
+            type="number"
+            id="body-{index}-y"
+            step="0.1"
+            bind:value={body.y}
+          />
+        </div>
+        <div>
+          <label for="body-{index}-vx">Vx</label>
+          <input
+            type="range"
+            id="body-{index}-vx"
+            min="-100"
+            max="100"
+            step="0.1"
+            bind:value={body.vx}
+          />
+          <input
+            type="number"
+            id="body-{index}-vx"
+            step="0.1"
+            bind:value={body.vx}
+          />
+        </div>
+        <div>
+          <label for="body-{index}-vy">Vy</label>
+          <input
+            type="range"
+            id="body-{index}-vy"
+            min="-100"
+            max="100"
+            step="0.1"
+            bind:value={body.vy}
+          />
+          <input
+            type="number"
+            id="body-{index}-vy"
+            step="0.1"
+            bind:value={body.vy}
+          />
+        </div>
+        <div>
+          <fieldset>
+            <legend>Color</legend>
+            <label for="body-{index}-hue">Hue</label>
+            <input
+              type="number"
+              id="body-{index}-hue"
+              min="0"
+              max="359"
+              step="1"
+              bind:value={body.h}
+            />
+            <label for="body-{index}-saturation">Saturation</label>
+            <input
+              type="number"
+              id="body-{index}-saturation"
+              min="0"
+              max="100"
+              step="1"
+              bind:value={body.s}
+            />
+            <label for="body-{index}-lightness">Lightness</label>
+            <input
+              type="number"
+              id="body-{index}-lightness"
+              min="0"
+              max="100"
+              step="1"
+              bind:value={body.l}
+            />
+          </fieldset>
+        </div>
+        <div>
+          <button
+            on:click|preventDefault={(e) =>
+              (bodies = [
+                ...bodies.slice(0, index),
+                ...bodies.slice(index + 1),
+              ])}>Delete body {index + 1}</button
+          >
+        </div>
+      </fieldset>
+    {/each}
+    <div>
+      <button
+        on:click|preventDefault={() =>
+          (bodies = [...bodies, generateNewRandomBody()])}
+        >Create new body</button
+      >
     </div>
   </fieldset>
   <button on:click={simulate}>Simulate</button>

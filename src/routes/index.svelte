@@ -316,32 +316,21 @@
       }
     }
 
-    const generateNewRandomBody = () => {
-      const x = Math.random() * bCtx.canvas.width;
-      const y = Math.random() * bCtx.canvas.height;
-      const vx = Math.random() * 10 - 5;
-      const vy = Math.random() * 10 - 5;
-      const mass = Math.random() * 100;
-      const color = new HSLColor(Math.floor(Math.random() * 360), 100, 50);
-      return new Body(x, y, vx, vy, mass, color);
-    };
+    const bodies = params.has("bodies")
+      ? JSON.parse(params.get("bodies")).map(
+          (b) =>
+            new Body(b.x, b.y, b.vx, b.vy, b.m, new HSLColor(b.h, b.s, b.l))
+        )
+      : [
+          new Body(-100, 0, 0, 12.5, 30, new HSLColor(0, 100, 50)),
+          new Body(100, 0, 0, -12.5, 30, new HSLColor(235, 100, 50)),
+          new Body(0, 300, -18, 0, 2, new HSLColor(100, 100, 50)),
+          new Body(0, -300, 18, 0, 2, new HSLColor(40, 100, 50)),
+          new Body(-500, 0, 0, 17, 10, new HSLColor(150, 100, 50)),
+          new Body(500, 0, 0, -17, 10, new HSLColor(300, 100, 50)),
+        ];
 
-    const body1 = new Body(-100, 0, 0, 12.5, 30, new HSLColor(0, 100, 50));
-    const body2 = new Body(100, 0, 0, -12.5, 30, new HSLColor(235, 100, 50));
-    const body3 = new Body(0, 300, -18, 0, 2, new HSLColor(100, 100, 50));
-    const body4 = new Body(0, -300, 18, 0, 2, new HSLColor(40, 100, 50));
-    const body5 = new Body(-500, 0, 0, 17, 10, new HSLColor(150, 100, 50));
-    const body6 = new Body(500, 0, 0, -17, 10, new HSLColor(300, 100, 50));
-
-    const system = new System(
-      TIME_STEP,
-      body1,
-      body2,
-      body3,
-      body4,
-      body5,
-      body6
-    );
+    const system = new System(TIME_STEP, ...bodies);
 
     const resizeCanvas = (context) => {
       context.canvas.width = window.innerWidth;
