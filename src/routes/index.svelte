@@ -3,11 +3,12 @@
 
   import { onMount } from "svelte";
   import { browser } from "$app/env";
+  import { defaults } from "./_utils/defaults";
 
   onMount(() => {
     // Search params
     const params = new URLSearchParams(window.location.search);
-    const getSearchParamOrDefault = (params, paramName, fallback) => {
+    const getSearchParamOrDefault = (paramName, fallback) => {
       if (params.has(paramName)) {
         return JSON.parse(params.get(paramName));
       } else {
@@ -16,29 +17,32 @@
     };
 
     // Gravitational constant
-    const G = getSearchParamOrDefault(params, "gravity", 2712);
-    const REAL_TIME = getSearchParamOrDefault(params, "realTime", false);
-    const TIME_STEP = getSearchParamOrDefault(params, "timeStep", 0.1);
+    const G = getSearchParamOrDefault("gravity", defaults.gravity);
+    const REAL_TIME = getSearchParamOrDefault("realTime", defaults.realTime);
+    const TIME_STEP = getSearchParamOrDefault("timeStep", defaults.timeStep);
     const UPDATES_PER_FRAME = getSearchParamOrDefault(
-      params,
       "updatesPerFrame",
-      3
+      defaults.updatesPerFrame
     );
-    const SIZE_RATIO = getSearchParamOrDefault(params, "sizeRatio", 2);
-    const TRAIL = getSearchParamOrDefault(params, "trails", true);
+    const SIZE_RATIO = getSearchParamOrDefault("sizeRatio", defaults.sizeRatio);
+    const TRAIL = getSearchParamOrDefault("trails", defaults.trails);
     const DISAPPEARING_TRAIL = getSearchParamOrDefault(
-      params,
       "disappearingTrails",
-      false
+      defaults.disappearingTrails
     );
-    const TRAIL_LENGTH = getSearchParamOrDefault(params, "trailLength", 500);
+    const TRAIL_LENGTH = getSearchParamOrDefault(
+      "trailLength",
+      defaults.trailLength
+    );
     const WHITE_BACKGROUND = getSearchParamOrDefault(
-      params,
       "whiteBackground",
-      false
+      defaults.whiteBackground
     );
-    const SHINE = getSearchParamOrDefault(params, "shinyBodies", true);
-    const SHINE_RADIUS = getSearchParamOrDefault(params, "shineRadius", 1);
+    const SHINE = getSearchParamOrDefault("shinyBodies", defaults.shinyBodies);
+    const SHINE_RADIUS = getSearchParamOrDefault(
+      "shineRadius",
+      defaults.shineRadius
+    );
 
     const bCanvas = document.getElementById("bodies-canvas");
     const bCtx = bCanvas.getContext("2d");
@@ -322,20 +326,9 @@
       }
     }
 
-    const bodies = params.has("bodies")
-      ? JSON.parse(params.get("bodies")).map(
-          (b) =>
-            new Body(b.x, b.y, b.vx, b.vy, b.m, new HSLColor(b.h, b.s, b.l))
-        )
-      : [
-          new Body(-100, 0, 0, 12.5, 30, new HSLColor(0, 100, 50)),
-          new Body(100, 0, 0, -12.5, 30, new HSLColor(235, 100, 50)),
-          new Body(0, 300, -18, 0, 2, new HSLColor(100, 100, 50)),
-          new Body(0, -300, 18, 0, 2, new HSLColor(40, 100, 50)),
-          new Body(-500, 0, 0, 17, 10, new HSLColor(150, 100, 50)),
-          new Body(500, 0, 0, -17, 10, new HSLColor(300, 100, 50)),
-        ];
-
+    const bodies = getSearchParamOrDefault("bodies", defaults.bodies).map(
+      (b) => new Body(b.x, b.y, b.vx, b.vy, b.m, new HSLColor(b.h, b.s, b.l))
+    );
     const system = new System(TIME_STEP, ...bodies);
 
     const resizeCanvas = (context) => {

@@ -2,6 +2,7 @@
   "use strict";
 
   import { browser } from "$app/env";
+  import { defaults } from "./_utils/defaults";
 
   // Search params
   const getSearchParamOrDefault = (paramName, fallback) => {
@@ -14,28 +15,39 @@
     return fallback;
   };
 
-  let gravity = getSearchParamOrDefault("gravity", 2712);
-  let realTime = getSearchParamOrDefault("realTime", false);
-  let timeStep = getSearchParamOrDefault("timeStep", 0.1);
-  let updatesPerFrame = getSearchParamOrDefault("updatesPerFrame", 3);
-  let sizeRatio = getSearchParamOrDefault("sizeRatio", 2);
-  let trails = getSearchParamOrDefault("trails", true);
-  let disappearingTrails = getSearchParamOrDefault("disappearingTrails", false);
-  let trailLength = getSearchParamOrDefault("trailLength", 500);
-  let whiteBackground = getSearchParamOrDefault("whiteBackground", false);
-  let shinyBodies = getSearchParamOrDefault("shinyBodies", true);
-  let shineRadius = getSearchParamOrDefault("shineRadius", 1);
+  let gravity = getSearchParamOrDefault("gravity", defaults.gravity);
+  let realTime = getSearchParamOrDefault("realTime", defaults.realTime);
+  let timeStep = getSearchParamOrDefault("timeStep", defaults.timeStep);
+  let updatesPerFrame = getSearchParamOrDefault(
+    "updatesPerFrame",
+    defaults.updatesPerFrame
+  );
+  let sizeRatio = getSearchParamOrDefault("sizeRatio", defaults.sizeRatio);
+  let trails = getSearchParamOrDefault("trails", defaults.trails);
+  let disappearingTrails = getSearchParamOrDefault(
+    "disappearingTrails",
+    defaults.disappearingTrails
+  );
+  let trailLength = getSearchParamOrDefault(
+    "trailLength",
+    defaults.trailLength
+  );
+  let whiteBackground = getSearchParamOrDefault(
+    "whiteBackground",
+    defaults.whiteBackground
+  );
+  let shinyBodies = getSearchParamOrDefault(
+    "shinyBodies",
+    defaults.shinyBodies
+  );
+  let shineRadius = getSearchParamOrDefault(
+    "shineRadius",
+    defaults.shineRadius
+  );
 
   $: logTimeStep = Math.log(timeStep) / Math.log(10);
 
-  let bodies = getSearchParamOrDefault("bodies", [
-    { x: -100, y: 0, vx: 0, vy: 12.5, m: 30, h: 0, s: 100, l: 50 },
-    { x: 100, y: 0, vx: 0, vy: -12.5, m: 30, h: 235, s: 100, l: 50 },
-    { x: 0, y: 300, vx: -18, vy: 0, m: 2, h: 100, s: 100, l: 50 },
-    { x: 0, y: -300, vx: 18, vy: 0, m: 2, h: 40, s: 100, l: 50 },
-    { x: -500, y: 0, vx: 0, vy: 17, m: 10, h: 150, s: 100, l: 50 },
-    { x: 500, y: 0, vx: 0, vy: -17, m: 10, h: 300, s: 100, l: 50 },
-  ]);
+  let bodies = getSearchParamOrDefault("bodies", defaults.bodies);
 
   const generateNewRandomBody = () => {
     return {
