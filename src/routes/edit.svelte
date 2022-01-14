@@ -258,7 +258,7 @@
         type="range"
         id="shine-radius"
         min="0"
-        max="10"
+        max="5"
         step="0.1"
         bind:value={shineRadius}
         disabled={!shinyBodies}
