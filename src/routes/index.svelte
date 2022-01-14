@@ -2,6 +2,7 @@
   "use strict";
 
   import { onMount } from "svelte";
+  import { browser } from "$app/env";
 
   onMount(() => {
     // Search params
@@ -349,7 +350,7 @@
       resizeCanvas(bCtx);
       resizeCanvas(tCtx);
       // Clear the background canvas and fill it with a solid background color since Chrome has a
-      // bug where canvas with "{ alpha: false }" will leave the window completely transparent and
+      // bug where a canvas with "{ alpha: false }" will leave the window completely transparent and
       // might not even clear the previous page properly.
       if (WHITE_BACKGROUND) {
         tCtx.fillStyle = "white";
@@ -391,7 +392,13 @@
 <button
   id="edit-button"
   on:click={() => {
-    window.location.assign("/edit/");
+    if (browser) {
+      const url = new URL("./edit/", window.location.href);
+      for (const [key, value] of new URLSearchParams(window.location.search)) {
+        url.searchParams.set(key, value);
+      }
+      window.location.assign(url);
+    }
   }}>Edit simulation settings</button
 >"
 <canvas id="trails-canvas" width="800" height="600" />

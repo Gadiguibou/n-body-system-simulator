@@ -1,27 +1,41 @@
 <script>
   "use strict";
 
-  let gravity = 2712;
-  let realTime = false;
-  let timeStep = 0.1;
-  $: logTimeStep = Math.log(timeStep) / Math.log(10);
-  let updatesPerFrame = 3;
-  let sizeRatio = 2;
-  let trails = true;
-  let disappearingTrails = false;
-  let trailLength = 500;
-  let whiteBackground = false;
-  let shinyBodies = true;
-  let shineRadius = 1;
+  import { browser } from "$app/env";
 
-  let bodies = [
+  // Search params
+  const getSearchParamOrDefault = (paramName, fallback) => {
+    if (browser) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has(paramName)) {
+        return JSON.parse(params.get(paramName));
+      }
+    }
+    return fallback;
+  };
+
+  let gravity = getSearchParamOrDefault("gravity", 2712);
+  let realTime = getSearchParamOrDefault("realTime", false);
+  let timeStep = getSearchParamOrDefault("timeStep", 0.1);
+  let updatesPerFrame = getSearchParamOrDefault("updatesPerFrame", 3);
+  let sizeRatio = getSearchParamOrDefault("sizeRatio", 2);
+  let trails = getSearchParamOrDefault("trails", true);
+  let disappearingTrails = getSearchParamOrDefault("disappearingTrails", false);
+  let trailLength = getSearchParamOrDefault("trailLength", 500);
+  let whiteBackground = getSearchParamOrDefault("whiteBackground", false);
+  let shinyBodies = getSearchParamOrDefault("shinyBodies", true);
+  let shineRadius = getSearchParamOrDefault("shineRadius", 1);
+
+  $: logTimeStep = Math.log(timeStep) / Math.log(10);
+
+  let bodies = getSearchParamOrDefault("bodies", [
     { x: -100, y: 0, vx: 0, vy: 12.5, m: 30, h: 0, s: 100, l: 50 },
     { x: 100, y: 0, vx: 0, vy: -12.5, m: 30, h: 235, s: 100, l: 50 },
     { x: 0, y: 300, vx: -18, vy: 0, m: 2, h: 100, s: 100, l: 50 },
     { x: 0, y: -300, vx: 18, vy: 0, m: 2, h: 40, s: 100, l: 50 },
     { x: -500, y: 0, vx: 0, vy: 17, m: 10, h: 150, s: 100, l: 50 },
     { x: 500, y: 0, vx: 0, vy: -17, m: 10, h: 300, s: 100, l: 50 },
-  ];
+  ]);
 
   const generateNewRandomBody = () => {
     return {
@@ -38,7 +52,7 @@
 
   const simulate = (e) => {
     e.preventDefault();
-    const url = new URL("../", window.location);
+    const url = new URL("../", window.location.href);
     for (let [key, value] of Object.entries({
       gravity,
       realTime,
