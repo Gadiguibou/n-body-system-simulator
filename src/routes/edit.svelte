@@ -1,9 +1,9 @@
 <script>
   let gravity = 2000;
   let realTime = false;
-  let timeStep = 0.05;
+  let timeStep = 0.1;
   $: logTimeStep = Math.log(timeStep) / Math.log(10);
-  let updatesPerFrame = 10;
+  let updatesPerFrame = 3;
   let sizeRatio = 2;
   let trails = true;
   let disappearingTrails = false;

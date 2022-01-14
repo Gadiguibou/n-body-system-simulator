@@ -9,8 +9,8 @@
     // Gravitational constant
     const G = JSON.parse(params.get("gravity")) || 2000;
     const REAL_TIME = JSON.parse(params.get("realTime")) || false;
-    const TIME_STEP = JSON.parse(params.get("timeStep")) || 0.05;
-    const UPDATES_PER_FRAME = JSON.parse(params.get("updatesPerFrame")) || 10;
+    const TIME_STEP = JSON.parse(params.get("timeStep")) || 0.1;
+    const UPDATES_PER_FRAME = JSON.parse(params.get("updatesPerFrame")) || 3;
     const SIZE_RATIO = JSON.parse(params.get("sizeRatio")) || 2;
     const TRAIL = JSON.parse(params.get("trails")) || true;
     const DISAPPEARING_TRAIL =
