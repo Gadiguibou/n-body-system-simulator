@@ -388,8 +388,11 @@
 </svelte:head>
 
 <button id="start-and-pause-button">Start simulation</button>
-<button id="edit-button" on:click={() => window.location.assign("/edit/")}
-  >Edit simulation settings</button
+<button
+  id="edit-button"
+  on:click={() => {
+    window.location.assign("/edit/");
+  }}>Edit simulation settings</button
 >"
 <canvas id="trails-canvas" width="800" height="600" />
 <canvas id="bodies-canvas" width="800" height="600" />
