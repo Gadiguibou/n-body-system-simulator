@@ -38,7 +38,7 @@
 
   const simulate = (e) => {
     e.preventDefault();
-    const url = new URL("/", window.location.origin);
+    const url = new URL("../", window.location);
     for (let [key, value] of Object.entries({
       gravity,
       realTime,
