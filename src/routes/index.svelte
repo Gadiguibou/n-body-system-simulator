@@ -4,18 +4,35 @@
   import { onMount } from "svelte";
 
   onMount(() => {
+    // Search params
+    const params = new URLSearchParams(window.location.search);
     // Gravitational constant
-    const G = 2000;
-    const REAL_TIME = false;
-    const TIME_STEP = 0.05;
-    const UPDATES_PER_FRAME = 10;
-    const SIZE_RATIO = 2;
-    const TRAIL = true;
-    const DISAPPEARING_TRAIL = false;
-    const TRAIL_LENGTH = 500;
-    const TRANSPARENT_BACKGROUND = false;
-    const SHINE = true;
-    const SHINE_RADIUS = 1;
+    const G = JSON.parse(params.get("gravity")) || 2000;
+    const REAL_TIME = JSON.parse(params.get("realTime")) || false;
+    const TIME_STEP = JSON.parse(params.get("timeStep")) || 0.05;
+    const UPDATES_PER_FRAME = JSON.parse(params.get("updatesPerFrame")) || 10;
+    const SIZE_RATIO = JSON.parse(params.get("sizeRatio")) || 2;
+    const TRAIL = JSON.parse(params.get("trails")) || true;
+    const DISAPPEARING_TRAIL =
+      JSON.parse(params.get("disappearingTrails")) || false;
+    const TRAIL_LENGTH = JSON.parse(params.get("trailLength")) || 500;
+    const TRANSPARENT_BACKGROUND =
+      JSON.parse(params.get("whiteBackground")) || false;
+    const SHINE = JSON.parse(params.get("shinyBodies")) || true;
+    const SHINE_RADIUS = JSON.parse(params.get("shineRadius")) || 1;
+    console.log({
+      G,
+      REAL_TIME,
+      TIME_STEP,
+      UPDATES_PER_FRAME,
+      SIZE_RATIO,
+      TRAIL,
+      DISAPPEARING_TRAIL,
+      TRAIL_LENGTH,
+      TRANSPARENT_BACKGROUND,
+      SHINE,
+      SHINE_RADIUS,
+    });
 
     const bCanvas = document.getElementById("bodies-canvas");
     const bCtx = bCanvas.getContext("2d");
@@ -358,6 +375,9 @@
 </svelte:head>
 
 <button id="start-and-pause-button">Start simulation</button>
+<button id="edit-button" on:click={() => window.location.assign("/edit/")}
+  >Edit simulation settings</button
+>"
 <canvas id="trails-canvas" width="800" height="600" />
 <canvas id="bodies-canvas" width="800" height="600" />
 
@@ -377,10 +397,17 @@
     left: 0px;
   }
 
-  button {
+  #start-and-pause-button {
     position: absolute;
     top: 10px;
     left: 10px;
+    z-index: 10;
+  }
+
+  #edit-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
     z-index: 10;
   }
 </style>
