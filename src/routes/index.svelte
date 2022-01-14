@@ -7,7 +7,7 @@
     // Search params
     const params = new URLSearchParams(window.location.search);
     // Gravitational constant
-    const G = JSON.parse(params.get("gravity")) || 2000;
+    const G = JSON.parse(params.get("gravity")) || 2712;
     const REAL_TIME = JSON.parse(params.get("realTime")) || false;
     const TIME_STEP = JSON.parse(params.get("timeStep")) || 0.1;
     const UPDATES_PER_FRAME = JSON.parse(params.get("updatesPerFrame")) || 3;

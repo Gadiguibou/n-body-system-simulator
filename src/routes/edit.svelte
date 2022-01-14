@@ -1,5 +1,5 @@
 <script>
-  let gravity = 2000;
+  let gravity = 2712;
   let realTime = false;
   let timeStep = 0.1;
   $: logTimeStep = Math.log(timeStep) / Math.log(10);
