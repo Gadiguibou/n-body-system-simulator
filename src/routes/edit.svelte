@@ -47,7 +47,33 @@
 
   $: logTimeStep = Math.log(timeStep) / Math.log(10);
 
-  let bodies = getSearchParamOrDefault("bodies", defaults.bodies);
+  let bodies = getSearchParamOrDefault(
+    "bodies",
+    // This performs a shallow copy of each item in the array
+    defaults.bodies.map((body) => {
+      return { ...body };
+    })
+  );
+
+  const restoreDefaults = () => {
+    ({
+      gravity,
+      realTime,
+      timeStep,
+      updatesPerFrame,
+      sizeRatio,
+      trails,
+      disappearingTrails,
+      trailLength,
+      whiteBackground,
+      shinyBodies,
+      shineRadius,
+    } = defaults);
+    // This performs a shallow copy of each item in the array
+    bodies = defaults.bodies.map((body) => {
+      return { ...body };
+    });
+  };
 
   const generateNewRandomBody = () => {
     return {
@@ -389,5 +415,16 @@
       >
     </div>
   </fieldset>
-  <button on:click={simulate}>Simulate</button>
+  <div>
+    <button
+      on:click|preventDefault={() => {
+        restoreDefaults();
+        console.log(bodies);
+        console.log(defaults.bodies);
+      }}>Restore all simulation parameters to default</button
+    >
+  </div>
+  <div>
+    <button on:click|preventDefault={simulate}>Simulate</button>
+  </div>
 </form>
