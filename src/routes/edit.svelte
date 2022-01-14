@@ -367,33 +367,67 @@
         <div>
           <fieldset>
             <legend>Color</legend>
-            <label for="body-{index}-hue">Hue</label>
-            <input
-              type="number"
-              id="body-{index}-hue"
-              min="0"
-              max="359"
-              step="1"
-              bind:value={body.h}
-            />
-            <label for="body-{index}-saturation">Saturation</label>
-            <input
-              type="number"
-              id="body-{index}-saturation"
-              min="0"
-              max="100"
-              step="1"
-              bind:value={body.s}
-            />
-            <label for="body-{index}-lightness">Lightness</label>
-            <input
-              type="number"
-              id="body-{index}-lightness"
-              min="0"
-              max="100"
-              step="1"
-              bind:value={body.l}
-            />
+            <div>
+              <label for="body-{index}-hue">Hue</label>
+              <input
+                type="range"
+                id="body-{index}-hue"
+                min="0"
+                max="359"
+                step="1"
+                bind:value={body.h}
+              />
+              <input
+                type="number"
+                id="body-{index}-hue"
+                min="0"
+                max="359"
+                step="1"
+                bind:value={body.h}
+              />
+              <span>°</span>
+            </div>
+            <div>
+              <label for="body-{index}-saturation">Saturation</label>
+              <input
+                type="range"
+                id="body-{index}-saturation"
+                min="0"
+                max="100"
+                step="1"
+                bind:value={body.s}
+              />
+              <input
+                type="number"
+                id="body-{index}-saturation"
+                min="0"
+                max="100"
+                step="1"
+                bind:value={body.s}
+              />
+              <span>%</span>
+            </div>
+            <div>
+              <label for="body-{index}-lightness">Lightness</label>
+              <input
+                type="range"
+                id="body-{index}-lightness"
+                min="0"
+                max="100"
+                step="1"
+                bind:value={body.l}
+              />
+              <input
+                type="number"
+                id="body-{index}-lightness"
+                min="0"
+                max="100"
+                step="1"
+                bind:value={body.l}
+              />
+              <span>%</span>
+            </div>
+            <div style="color:{`hsl(${body.h},${body.s}%,${body.l}%)`}">⬤</div>
           </fieldset>
         </div>
         <div>
