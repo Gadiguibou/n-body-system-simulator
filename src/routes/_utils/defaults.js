@@ -1,5 +1,5 @@
 export const defaults = {
-  g: 2712,
+  gravity: 2712,
   realTime: false,
   timeStep: 0.1,
   updatesPerFrame: 3,
