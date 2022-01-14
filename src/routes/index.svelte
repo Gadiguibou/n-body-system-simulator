@@ -31,7 +31,7 @@
       false
     );
     const TRAIL_LENGTH = getSearchParamOrDefault(params, "trailLength", 500);
-    const TRANSPARENT_BACKGROUND = getSearchParamOrDefault(
+    const WHITE_BACKGROUND = getSearchParamOrDefault(
       params,
       "whiteBackground",
       false
@@ -42,7 +42,7 @@
     const bCanvas = document.getElementById("bodies-canvas");
     const bCtx = bCanvas.getContext("2d");
     const tCanvas = document.getElementById("trails-canvas");
-    const tCtx = tCanvas.getContext("2d", { alpha: TRANSPARENT_BACKGROUND });
+    const tCtx = tCanvas.getContext("2d");
 
     class HSLColor {
       constructor(h, s, l, a = 0.3) {
@@ -274,7 +274,12 @@
           bCtx.canvas.height
         );
         if (DISAPPEARING_TRAIL) {
-          tCtx.clearRect(
+          if (WHITE_BACKGROUND) {
+            tCtx.fillStyle = "white";
+          } else {
+            tCtx.fillStyle = "black";
+          }
+          tCtx.fillRect(
             -tCanvas.width / 2,
             -tCanvas.height / 2,
             tCanvas.width,
@@ -343,6 +348,20 @@
     const resizeCanvases = () => {
       resizeCanvas(bCtx);
       resizeCanvas(tCtx);
+      // Clear the background canvas and fill it with a solid background color since Chrome has a
+      // bug where canvas with "{ alpha: false }" will leave the window completely transparent and
+      // might not even clear the previous page properly.
+      if (WHITE_BACKGROUND) {
+        tCtx.fillStyle = "white";
+      } else {
+        tCtx.fillStyle = "black";
+      }
+      tCtx.fillRect(
+        -tCanvas.width / 2,
+        -tCanvas.height / 2,
+        tCanvas.width,
+        tCanvas.height
+      );
       system.draw();
     };
 
