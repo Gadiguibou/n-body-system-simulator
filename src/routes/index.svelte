@@ -6,33 +6,38 @@
   onMount(() => {
     // Search params
     const params = new URLSearchParams(window.location.search);
+    const getSearchParamOrDefault = (params, paramName, fallback) => {
+      if (params.has(paramName)) {
+        return JSON.parse(params.get(paramName));
+      } else {
+        return fallback;
+      }
+    };
+
     // Gravitational constant
-    const G = JSON.parse(params.get("gravity")) || 2712;
-    const REAL_TIME = JSON.parse(params.get("realTime")) || false;
-    const TIME_STEP = JSON.parse(params.get("timeStep")) || 0.1;
-    const UPDATES_PER_FRAME = JSON.parse(params.get("updatesPerFrame")) || 3;
-    const SIZE_RATIO = JSON.parse(params.get("sizeRatio")) || 2;
-    const TRAIL = JSON.parse(params.get("trails")) || true;
-    const DISAPPEARING_TRAIL =
-      JSON.parse(params.get("disappearingTrails")) || false;
-    const TRAIL_LENGTH = JSON.parse(params.get("trailLength")) || 500;
-    const TRANSPARENT_BACKGROUND =
-      JSON.parse(params.get("whiteBackground")) || false;
-    const SHINE = JSON.parse(params.get("shinyBodies")) || true;
-    const SHINE_RADIUS = JSON.parse(params.get("shineRadius")) || 1;
-    console.log({
-      G,
-      REAL_TIME,
-      TIME_STEP,
-      UPDATES_PER_FRAME,
-      SIZE_RATIO,
-      TRAIL,
-      DISAPPEARING_TRAIL,
-      TRAIL_LENGTH,
-      TRANSPARENT_BACKGROUND,
-      SHINE,
-      SHINE_RADIUS,
-    });
+    const G = getSearchParamOrDefault(params, "gravity", 2712);
+    const REAL_TIME = getSearchParamOrDefault(params, "realTime", false);
+    const TIME_STEP = getSearchParamOrDefault(params, "timeStep", 0.1);
+    const UPDATES_PER_FRAME = getSearchParamOrDefault(
+      params,
+      "updatesPerFrame",
+      3
+    );
+    const SIZE_RATIO = getSearchParamOrDefault(params, "sizeRatio", 2);
+    const TRAIL = getSearchParamOrDefault(params, "trails", true);
+    const DISAPPEARING_TRAIL = getSearchParamOrDefault(
+      params,
+      "disappearingTrails",
+      false
+    );
+    const TRAIL_LENGTH = getSearchParamOrDefault(params, "trailLength", 500);
+    const TRANSPARENT_BACKGROUND = getSearchParamOrDefault(
+      params,
+      "whiteBackground",
+      false
+    );
+    const SHINE = getSearchParamOrDefault(params, "shinyBodies", true);
+    const SHINE_RADIUS = getSearchParamOrDefault(params, "shineRadius", 1);
 
     const bCanvas = document.getElementById("bodies-canvas");
     const bCtx = bCanvas.getContext("2d");
