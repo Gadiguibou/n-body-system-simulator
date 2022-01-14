@@ -459,6 +459,6 @@
     >
   </div>
   <div>
-    <button on:click|preventDefault={simulate}>Simulate</button>
+    <button type="submit" on:click|preventDefault={simulate}>Simulate</button>
   </div>
 </form>
