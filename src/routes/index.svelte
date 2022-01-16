@@ -386,6 +386,7 @@
 </svelte:head>
 
 <button id="start-and-pause-button">Start simulation</button>
+<a id="about-link" href="/about/">About this website</a>
 <button
   id="edit-button"
   on:click={() => {
@@ -421,6 +422,13 @@
     position: absolute;
     top: 10px;
     left: 10px;
+    z-index: 10;
+  }
+
+  #about-link {
+    position: absolute;
+    bottom: 40px;
+    right: 10px;
     z-index: 10;
   }
 
