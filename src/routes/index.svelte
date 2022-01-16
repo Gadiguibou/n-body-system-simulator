@@ -54,7 +54,7 @@
     const tCtx = tCanvas.getContext("2d");
 
     class HSLColor {
-      constructor(h, s, l, a = 0.3) {
+      constructor(h, s, l, a = 1) {
         this.h = h;
         this.s = s;
         this.l = l;
